@@ -9,6 +9,7 @@ const AppProvider = ({ children }) => {
 
     const [ meals, setMeals ] = useState([])
     const [ loading, setLoading ] = useState(false)
+    const [ searchTerm, setSearchTerm] = useState("")
 
     const fetchMeals = async (url) => {
         setLoading(true)
@@ -25,16 +26,22 @@ const AppProvider = ({ children }) => {
         setLoading(false)
     }
 
+    const searchMeal = () => {
+        fetchMeals(`${allMealsUrl}${searchTerm}`)
+    }
+
     useEffect(() => {
         fetchMeals(allMealsUrl)
     }, [])
 
+    useEffect(() => {
+        if(!searchTerm) return
+        searchMeal()
+    }, [searchTerm])
     
-
-
     return (
         <AppContext.Provider
-            value={{ meals, loading }}
+            value={{ meals, loading, setSearchTerm }}
         >
             {children}
         </AppContext.Provider>

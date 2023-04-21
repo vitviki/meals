@@ -25,7 +25,7 @@ const Meals = () => {
                     <img src={image} className="img" />
                     <footer>
                         <h5>{title}</h5>
-                        <button className="like-btn" onClick={{}}><BiLike /></button>
+                        <button className="like-btn"><BiLike /></button>
                     </footer>
                 </article>
 
