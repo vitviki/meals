@@ -5,6 +5,18 @@ const AppContext = React.createContext()
 const allMealsUrl = "https://www.themealdb.com/api/json/v1/1/search.php?s="
 const randomMealUrl = "https://www.themealdb.com/api/json/v1/1/random.php"
 
+const getFavoritesFromLocalStorage = () => {
+    let favorites;
+
+    if (localStorage.getItem("favorites")) {
+        favorites = JSON.parse(localStorage.getItem("favorites"))
+    } else {
+        favorites = []
+    }
+
+    return favorites
+}
+
 const AppProvider = ({ children }) => {
 
     const [ meals, setMeals ] = useState([])
@@ -12,7 +24,7 @@ const AppProvider = ({ children }) => {
     const [ searchTerm, setSearchTerm] = useState("")
     const [ showModal, setShowModal ] = useState(false)
     const [ selectedMeal, setSelectedMeal ] = useState(null)
-    const [ favorites, setFavorites ] = useState([])
+    const [ favorites, setFavorites ] = useState(getFavoritesFromLocalStorage())
 
     const fetchMeals = async (url) => {
         setLoading(true)
@@ -50,18 +62,27 @@ const AppProvider = ({ children }) => {
     }
 
     const addToFavorites = (idMeal) => {
-        const meal = meals.find((m) => m.idMeal === idMeal)
         const alreadyExists = favorites.find((m) => m.idMeal === idMeal)
-        if (alreadyExists) return
 
+        /* If already exists, remove from favorites */
+        if (alreadyExists) 
+        {
+            removeFromFavorites(idMeal)
+            return 
+        }
+
+        const meal = meals.find((m) => m.idMeal === idMeal)
         const updatedFavorites = [...favorites, meal]
         setFavorites(updatedFavorites)
-        console.log(favorites)
+
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites))
     }
 
     const removeFromFavorites = (idMeal) => {
         const updatedFavorites = favorites.filter((m) => m.idMeal !== idMeal)
         setFavorites(updatedFavorites)
+
+        localStorage.setItem("favorites", JSON.stringify(updatedFavorites))
     }
 
     useEffect(() => {
