@@ -3,7 +3,7 @@ import { BiLike } from "react-icons/bi"
 
 const Meals = () => {
 
-    const { meals, loading, mealSelected } = useGlobalContext()
+    const { meals, loading, mealSelected, addToFavorites } = useGlobalContext()
 
     if (loading ){
         return <section className="section">
@@ -25,7 +25,7 @@ const Meals = () => {
                     <img src={image} className="img" onClick={() => mealSelected(idMeal)}/>
                     <footer>
                         <h5>{title}</h5>
-                        <button className="like-btn"><BiLike /></button>
+                        <button className="like-btn" onClick={() => addToFavorites(idMeal)}><BiLike /></button>
                     </footer>
                 </article>
 
