@@ -230,6 +230,15 @@ ul {
   transform: translateY(-2px);
 }
 
+.unlike-btn {
+  background: transparent;
+  border: transparent;
+  font-size: 1.5rem;
+  cursor: pointer;
+  transition: var(--transition);
+  color: var(--red-dark)
+}
+
 /* ===================== SEARCH ======================= */
 .search-container {
   height: 5rem;

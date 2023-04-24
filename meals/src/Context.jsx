@@ -61,8 +61,18 @@ const AppProvider = ({ children }) => {
         setShowModal(false)
     }
 
+    const isMealInFavorites = (idMeal) => {
+        const meal = favorites.find((m) => m.idMeal === idMeal)
+
+        if (meal) {
+            return true
+        }
+
+        return false
+    }
+
     const addToFavorites = (idMeal) => {
-        const alreadyExists = favorites.find((m) => m.idMeal === idMeal)
+        const alreadyExists = isMealInFavorites(idMeal)
 
         /* If already exists, remove from favorites */
         if (alreadyExists) 
@@ -96,7 +106,7 @@ const AppProvider = ({ children }) => {
     
     return (
         <AppContext.Provider
-            value={{ meals, loading, showModal, selectedMeal, favorites, setSearchTerm, fetchRandomMeal, setShowModal, mealSelected, closeModal, addToFavorites, removeFromFavorites }}
+            value={{ meals, loading, showModal, selectedMeal, favorites, setSearchTerm, fetchRandomMeal, setShowModal, mealSelected, closeModal, addToFavorites, removeFromFavorites, isMealInFavorites }}
         >
             {children}
         </AppContext.Provider>

@@ -1,9 +1,10 @@
 import { useGlobalContext } from "./Context"
-import { BiLike } from "react-icons/bi"
+import { FaRegThumbsUp, FaThumbsUp } from "react-icons/fa"
+
 
 const Meals = () => {
 
-    const { meals, loading, mealSelected, addToFavorites } = useGlobalContext()
+    const { meals, loading, mealSelected, addToFavorites, removeFromFavorites, isMealInFavorites } = useGlobalContext()
 
     if (loading ){
         return <section className="section">
@@ -24,11 +25,14 @@ const Meals = () => {
                 return <article key={idMeal} className="single-meal">
                     <img src={image} className="img" onClick={() => mealSelected(idMeal)}/>
                     <footer>
-                        <h5>{title}</h5>
-                        <button className="like-btn" onClick={() => addToFavorites(idMeal)}><BiLike /></button>
+                        <h5>{title}</h5>                          
+                        {isMealInFavorites(idMeal)
+                            ? <button className="unlike-btn" onClick={() => removeFromFavorites(idMeal)}><FaThumbsUp /></button>
+                            : <button className="like-btn" onClick={() => addToFavorites(idMeal)}><FaRegThumbsUp /></button>
+
+                        }
                     </footer>
                 </article>
-
             })
         }
         </section>
